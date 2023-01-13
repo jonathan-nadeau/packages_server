@@ -1,0 +1,19 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "RESTful API for rendering packages",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/jonathan-nadeau/packages_server.git"
+  },
+  "author": "Jonathan Nadeau",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jonathan-nadeau/packages_server/issues"
+  },
+  "homepage": "https://github.com/jonathan-nadeau/packages_server#readme"
+}
