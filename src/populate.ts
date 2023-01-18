@@ -59,7 +59,7 @@ const generateDataBase = async () => {
             code: faker.random.alphaNumeric(6, { casing: 'upper' }),
             description: faker.commerce.productDescription(),
             categories: Array.from({ length: Math.floor(Math.random() * (4 - 1 + 1) + 1) }, faker.company.bsAdjective),
-            establishment_id: establishmentIds[Math.floor(Math.random() * 3)],
+            establishment_id: fakeEstablishmentIds[Math.floor(Math.random() * 3)],
             start_date,
             end_date,
             price: faker.commerce.price(250, 3000),

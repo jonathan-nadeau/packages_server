@@ -1,5 +1,6 @@
 import mongoose, { Document, Schema } from 'mongoose';
 import { IEstablishmentModel } from './Establishment';
+import { string } from 'joi';
 
 export interface IReview {
     scoreOutOfTen: number;
@@ -27,6 +28,7 @@ const PackSchema: Schema = new Schema({
     name: { type: String, required: true },
     description: { type: String, required: true },
     categories: { type: [String], required: true },
+    establishment_id: { type: String, required: true },
     start_date: { type: Date, required: true },
     end_date: { type: Date, required: true },
     price: { type: Number, required: true },
