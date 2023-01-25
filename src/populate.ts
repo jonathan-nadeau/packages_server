@@ -26,7 +26,7 @@ const generateDataBase = async () => {
     const establishmentIds: string[] = [];
     const fakeEstablishmentIds = [];
 
-    for (let index = 0; index < 3; index++) {
+    for (let index = 0; index < 6; index++) {
         const _id = new mongoose.Types.ObjectId();
         fakeEstablishmentIds.push(_id);
         const establishment = new Establishment({
@@ -48,7 +48,7 @@ const generateDataBase = async () => {
 
     Logging.info('Establishments generated');
 
-    for (let index = 0; index < 7; index++) {
+    for (let index = 0; index < 14; index++) {
         const _id = new mongoose.Types.ObjectId();
         const start_date = faker.date.soon();
         const end_date = faker.date.soon(1, start_date);
