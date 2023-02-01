@@ -1,34 +1,37 @@
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
-import { Pack } from '../models';
-import { IReview } from '../models';
+import { Pack, IReview } from '../models';
 
 const createPack = async (req: Request, res: Response, next: NextFunction) => {
-    const { name, description, categories, start_date, end_date, price, discount, premium, establishment_id } = req.body;
-
-    const _id = new mongoose.Types.ObjectId();
-    const code: string = name.slice(0, 3) + _id.toString().slice(0, 3);
-    const reviews: IReview[] = [];
-
-    const pack = new Pack({
-        _id,
-        code,
-        name,
-        description,
-        categories,
-        establishment_id,
-        start_date,
-        end_date,
-        price,
-        discount,
-        premium,
-        reviews
-    });
-
     try {
-        const response = await pack.save();
-        if (!response) throw new Error();
-        return res.status(200).json({ response });
+        const { name, description, categories, start_date, end_date, price, discount, premium, establishment_id } = req.body;
+
+        const _id = new mongoose.Types.ObjectId();
+        const code: string = _id.toString().slice(-6);
+        const reviews: IReview[] = [];
+
+        const pack = new Pack({
+            _id,
+            code,
+            name,
+            description,
+            categories,
+            establishment_id,
+            start_date,
+            end_date,
+            price,
+            discount,
+            premium,
+            reviews
+        });
+
+        try {
+            const response = await pack.save();
+            if (response.errors) throw new Error(response.errors.message);
+            return res.status(200).json({ response });
+        } catch (error) {
+            return res.status(400).json({ error });
+        }
     } catch (error) {
         return res.status(500).json({ error });
     }
@@ -54,26 +57,29 @@ const getAllPacks = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
+const updateOrDeleteWithoutIdParams = (req: Request, res: Response) => {
+    return res.status(400).json({ error: 'You must provide a valid id' });
+};
+
 const updatePack = async (req: Request, res: Response, next: NextFunction) => {
     const { pack_id } = req.params;
 
-    try {
-        const pack = await Pack.findById(pack_id);
-        if (pack) {
-            pack.set(req.body);
+    const pack = await Pack.findById(pack_id);
 
-            try {
-                const response = await pack.save();
-                if (!response) throw new Error();
-                res.status(200).json({ response });
-            } catch (error) {
-                return res.status(500).json({ error });
-            }
-        } else {
-            return res.status(400).json({ message: 'Not found' });
-        }
+    try {
+        if (!pack) throw new Error();
     } catch (error) {
-        res.status(500).json({ error });
+        return res.status(500).json({ error });
+    }
+    pack.set(req.body);
+
+    try {
+        const response = await pack.save();
+        console.log(response);
+        return res.status(200).json({ response });
+    } catch (error: any) {
+        const err = error.errors[Object.keys(error.errors)[0]].message;
+        return res.status(500).json({ error: err });
     }
 };
 
@@ -93,7 +99,8 @@ const packController = {
     getPack,
     getAllPacks,
     updatePack,
-    deletePack
+    deletePack,
+    updateOrDeleteWithoutIdParams
 };
 
 export default packController;
