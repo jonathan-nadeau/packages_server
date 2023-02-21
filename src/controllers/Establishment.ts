@@ -30,7 +30,7 @@ const getEstablishment = async (req: Request, res: Response, next: NextFunction)
     console.log(establishment_id);
     try {
         const response = await Establishment.findById(establishment_id);
-        return response ? res.status(200).json({ response }) : res.status(400).json({ message: 'Not found' });
+        return response ? res.status(200).json(response) : res.status(400).json({ message: 'Not found' });
     } catch (error) {}
 };
 

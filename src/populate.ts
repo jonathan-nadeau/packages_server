@@ -64,7 +64,10 @@ const generateDataBase = async () => {
             end_date,
             price: faker.commerce.price(250, 3000),
             discount: faker.datatype.number({ min: 0, max: 75 }),
-            premium: faker.datatype.boolean()
+            premium: faker.datatype.boolean(),
+            reviews: Array.from({ length: Math.floor(Math.random() * 50) }, () => ({
+                scoreOutOfTen: faker.datatype.number({ min: 1, max: 10 })
+            }))
         });
 
         try {
