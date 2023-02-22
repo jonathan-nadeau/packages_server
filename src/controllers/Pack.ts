@@ -42,7 +42,7 @@ const getPack = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
         const response = await Pack.findById(pack_id);
-        return response ? res.status(200).json({ response }) : res.status(404).json({ message: 'Not found' });
+        return response ? res.status(200).json(response) : res.status(404).json({ message: 'Not found' });
     } catch (error) {
         return res.status(500).json({ error });
     }
